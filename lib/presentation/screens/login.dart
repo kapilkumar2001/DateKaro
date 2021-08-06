@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:datekaro/presentation/screens/makeprofilepage.dart';
-import 'package:datekaro/presentation/screens/swipeformatchpage.dart';
+import 'package:datekaro/presentation/screens/userprofile/makeprofilepage1.dart';
+import 'package:datekaro/presentation/screens/Dashboard/swipeformatchpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:datekaro/core/constants/enum.dart';
@@ -52,7 +52,7 @@ class _StudentRegisterPageState extends State<LoginPage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => MakeProfilePage(phoneController.text)));
+                  builder: (context) => MakeProfilePage1(phoneController.text)));
         } else {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => SwipeForMatchPage()));

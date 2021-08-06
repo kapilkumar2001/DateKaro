@@ -4,5 +4,5 @@ class Strings {
 
   // HomeScreen
   static final homeScreenTitle = 'Home Screen';
-  static final homeScreenCenterText = 'Welcome to TOYO';
+  static final homeScreenCenterText = 'Date Karo';
 }
