@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "619790671046",
+    "project_id": "datekaro-53e2b",
+    "storage_bucket": "datekaro-53e2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619790671046:android:b478623bb9a814dc708bc7",
+        "android_client_info": {
+          "package_name": "com.example.datekaro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619790671046-kbp9bj22dltsblj1e8r1snsq6flt5un4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7ch3UK8JQxDQ9Z9WFnv1wqZT2AgACBJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619790671046-kbp9bj22dltsblj1e8r1snsq6flt5un4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
