@@ -1,6 +1,8 @@
+import 'package:datekaro/presentation/screens/Dashboard/swipepage.dart';
 import 'package:datekaro/presentation/screens/userprofile/Mainprofilepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swipe_cards/swipe_cards.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -19,12 +21,13 @@ class _DashboardState extends State<Dashboard> {
   }
 
   static const List<Widget> _tabs = <Widget>[
-    Center(
-      child: Text(
-        'Swipe page',
-        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-      ),
-    ),
+    // Center(
+    //   child: Text(
+    //     'Swipe page',
+    //     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+    //   ),
+    // ),
+    SwipePage(),
     Center(
       child: Text(
         'Chat',
