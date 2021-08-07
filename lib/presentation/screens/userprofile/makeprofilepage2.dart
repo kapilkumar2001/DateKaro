@@ -1,5 +1,5 @@
 import 'package:datekaro/data/net/firebase.dart';
-import 'package:datekaro/presentation/screens/Dashboard/swipeformatchpage.dart';
+import 'package:datekaro/presentation/screens/Dashboard/Dashboard.dart';
 import 'package:datekaro/presentation/screens/userprofile/makeprofilepage3.dart';
 import 'package:datekaro/presentation/widgets/blue_button.dart';
 import 'package:flutter/material.dart';
@@ -110,7 +110,7 @@ class _MakeProfilePage2State extends State<MakeProfilePage2> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SwipeForMatchPage()));
+                          builder: (context) => Dashboard()));
                 },
                 child: blueButton(
                     context: context,
