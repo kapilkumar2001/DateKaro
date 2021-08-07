@@ -113,7 +113,7 @@ class _MakeProfilePage1State extends State<MakeProfilePage1> {
                           children: [
                             Text("Select your Gender"),
                             SizedBox(
-                              width: 80,
+                              width: 60,
                             ),
                             Container(
                               child: DropdownButton(
