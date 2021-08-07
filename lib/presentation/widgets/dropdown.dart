@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-class PlayerPreferences extends StatefulWidget {
-  final int ?numPlayers;
-  PlayerPreferences({this.numPlayers});
+class GenderPreferences extends StatefulWidget {
+  final int? numPlayers;
+  GenderPreferences({this.numPlayers});
 
   @override
-  _PlayerPreferencesState createState() => _PlayerPreferencesState();
+  _GenderPreferencesState createState() => _GenderPreferencesState();
 }
 
-class _PlayerPreferencesState extends State<PlayerPreferences> {
+class _GenderPreferencesState extends State<GenderPreferences> {
   int dropDownValue = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
       child: DropdownButton(
         value: dropDownValue,
-        onChanged: (int ?newVal){
+        onChanged: (int? newVal) {
           setState(() {
             dropDownValue = newVal!;
           });
@@ -23,19 +23,15 @@ class _PlayerPreferencesState extends State<PlayerPreferences> {
         items: [
           DropdownMenuItem(
             value: 0,
-            child: Text('Yellow'),
+            child: Text('Male'),
           ),
           DropdownMenuItem(
             value: 1,
-            child: Text('Red'),
+            child: Text('Female'),
           ),
           DropdownMenuItem(
             value: 2,
-            child: Text('Blue'),
-          ),
-          DropdownMenuItem(
-            value: 3,
-            child: Text('Green'),
+            child: Text('Prefer not to say'),
           ),
         ],
       ),

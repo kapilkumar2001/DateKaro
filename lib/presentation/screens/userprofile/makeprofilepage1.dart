@@ -6,11 +6,10 @@ import 'package:datekaro/presentation/widgets/dropdown.dart';
 import 'package:flutter/material.dart';
 
 class MakeProfilePage1 extends StatefulWidget {
-  const MakeProfilePage1(
-    String text, {
-    Key? key,
-  });
-
+  final String phonenumber;
+  MakeProfilePage1(
+    this.phonenumber,
+  );
   @override
   _MakeProfilePage1State createState() => _MakeProfilePage1State();
 }
@@ -18,7 +17,15 @@ class MakeProfilePage1 extends StatefulWidget {
 class _MakeProfilePage1State extends State<MakeProfilePage1> {
   final _formKey = GlobalKey<FormState>();
 
-   List<String> location = ['One', 'Two', 'Three', 'Four'];
+  // List<String> gender = ['Male', 'Female', 'Prefer not to say'];
+
+  final namecontroller = new TextEditingController();
+  final agecontroller = new TextEditingController();
+  final biocontroller = new TextEditingController();
+  final gendercontroller = new TextEditingController();
+  late int age;
+
+  int dropDownValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +54,7 @@ class _MakeProfilePage1State extends State<MakeProfilePage1> {
                   child: Column(
                     children: [
                       TextFormField(
+                        controller: namecontroller,
                         decoration: InputDecoration(
                           hintText: "Enter Name",
                           labelText: "Your Name",
@@ -62,15 +70,20 @@ class _MakeProfilePage1State extends State<MakeProfilePage1> {
                         height: 40.0,
                       ),
                       TextFormField(
+                        controller: agecontroller,
                         decoration: InputDecoration(
                           hintText: "Example: 20",
                           labelText: "Age",
                         ),
                         validator: (value) {
                           var numValue = int.tryParse(value!);
-                          
-                          if (numValue!<18) {
+
+                          if (numValue! < 18) {
                             return "Must be Above 18";
+                          } else {
+                            setState(() {
+                              age = numValue;
+                            });
                           }
                           return null;
                         },
@@ -79,6 +92,7 @@ class _MakeProfilePage1State extends State<MakeProfilePage1> {
                         height: 40.0,
                       ),
                       TextFormField(
+                        controller: biocontroller,
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText: "About yourself",
@@ -87,26 +101,47 @@ class _MakeProfilePage1State extends State<MakeProfilePage1> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Cannot be empty";
-                          } 
+                          }
                           return null;
                         },
                       ),
                       SizedBox(
                         height: 40.0,
                       ),
-                    Row(
-                      children: [
-                        Text(
-                          "Select your Gender"
+                      SingleChildScrollView(
+                        child: Row(
+                          children: [
+                            Text("Select your Gender"),
+                            SizedBox(
+                              width: 80,
+                            ),
+                            Container(
+                              child: DropdownButton(
+                                value: dropDownValue,
+                                onChanged: (int? newVal) {
+                                  setState(() {
+                                    dropDownValue = newVal!;
+                                  });
+                                },
+                                items: [
+                                  DropdownMenuItem(
+                                    value: 0,
+                                    child: Text('Male'),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 1,
+                                    child: Text('Female'),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 2,
+                                    child: Text('Prefer not to say'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 120,
-                        ),
-                        Container(
-                        child: PlayerPreferences(),
                       ),
-                      ], 
-                    ),
                       SizedBox(
                         height: 60.0,
                       ),
@@ -116,8 +151,12 @@ class _MakeProfilePage1State extends State<MakeProfilePage1> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => MakeProfilePage2() )
-                                          );
+                                      builder: (context) => MakeProfilePage2(
+                                          widget.phonenumber.toString(),
+                                          namecontroller.text,
+                                          age,
+                                          biocontroller.text,
+                                          dropDownValue)));
                             }
                           },
                           child: blueButton(
