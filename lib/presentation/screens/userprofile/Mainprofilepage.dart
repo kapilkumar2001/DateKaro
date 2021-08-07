@@ -8,6 +8,7 @@ import 'package:datekaro/presentation/widgets/profile_appbar_widget.dart';
 import 'package:datekaro/presentation/widgets/user_profile._widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_image/firebase_image.dart';
 
 class MainProfilePage extends StatefulWidget {
   const MainProfilePage({Key? key}) : super(key: key);
@@ -93,6 +94,45 @@ class _MainProfilePageState extends State<MainProfilePage> {
               // MaterialPageRoute(builder: (context) => EditProfilePage()),
               //),
               ),
+
+          Center(
+            child: Stack(
+              children: [
+                ClipOval(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Ink.image(
+                      image: FirebaseImage(
+                          'gs://datekaro-53e2b.appspot.com/ProfileImages/$uid/image1',
+                          shouldCache: true,
+                          maxSizeBytes: 3000 * 1000,
+                          cacheRefreshStrategy: CacheRefreshStrategy.NEVER),
+                      fit: BoxFit.cover,
+                      width: 128,
+                      height: 128,
+                      //child: InkWell(onTap: onClicked),
+                    ),
+                  ),
+                )
+                // Positioned(
+                //   bottom: 0,
+                //   right: 4,
+                //  // child: buildEditIcon(color),
+                // ),
+              ],
+            ),
+          ),
+
+          //     Image(
+          //   image: FirebaseImage(
+          //     'gs://bucket123/userIcon123.jpg',
+          //     shouldCache: true, // The image should be cached (default: True)
+          //     maxSizeBytes: 3000 * 1000, // 3MB max file size (default: 2.5MB)
+          //     cacheRefreshStrategy: CacheRefreshStrategy.NEVER // Switch off update checking
+          //   ),
+          //   width: 100,
+          // ),
+
           const SizedBox(height: 24),
           Column(
             children: [
@@ -284,4 +324,37 @@ class _MainProfilePageState extends State<MainProfilePage> {
       ),
     );
   }
+
+  // Widget buildImage() {
+  //   final image = NetworkImage(imagePath);
+
+  //   return
+  // }
+
+  // Widget buildEditIcon(Color color) => buildCircle(
+  //       color: Colors.white,
+  //       all: 3,
+  //       child: buildCircle(
+  //         color: color,
+  //         all: 8,
+  //         child: Icon(
+  //           isEdit ? Icons.add_a_photo : Icons.edit,
+  //           color: Colors.white,
+  //           size: 20,
+  //         ),
+  //       ),
+  //     );
+
+  Widget buildCircle({
+    required Widget child,
+    required double all,
+    required Color color,
+  }) =>
+      ClipOval(
+        child: Container(
+          padding: EdgeInsets.all(all),
+          color: color,
+          child: child,
+        ),
+      );
 }
