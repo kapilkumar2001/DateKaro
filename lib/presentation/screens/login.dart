@@ -56,8 +56,8 @@ class _StudentRegisterPageState extends State<LoginPage> {
                   builder: (context) =>
                       MakeProfilePage1(phoneController.text)));
         } else {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MakeProfilePage3()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Dashboard()));
         }
       }
     } on FirebaseAuthException catch (e) {

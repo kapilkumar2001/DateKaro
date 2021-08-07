@@ -110,7 +110,7 @@ class _MakeProfilePage2State extends State<MakeProfilePage2> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Dashboard()));
+                          builder: (context) => MakeProfilePage3()));
                 },
                 child: blueButton(
                     context: context,

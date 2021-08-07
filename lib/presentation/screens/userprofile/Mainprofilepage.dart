@@ -86,14 +86,14 @@ class _MainProfilePageState extends State<MainProfilePage> {
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: [
-          ProfileWidget(
-              imagePath:
-                  "https://pbs.twimg.com/profile_images/1372030169985163266/ceCabVlu.jpg",
-              onClicked: () {}
-              // => Navigator.of(context).push(
-              // MaterialPageRoute(builder: (context) => EditProfilePage()),
-              //),
-              ),
+          // ProfileWidget(
+          //     imagePath:
+          //         "https://pbs.twimg.com/profile_images/1372030169985163266/ceCabVlu.jpg",
+          //     onClicked: () {}
+          //     // => Navigator.of(context).push(
+          //     // MaterialPageRoute(builder: (context) => EditProfilePage()),
+          //     //),
+          //     ),
 
           Center(
             child: Stack(
@@ -184,6 +184,7 @@ class _MainProfilePageState extends State<MainProfilePage> {
             ),
           ),
           const SizedBox(height: 24),
+
           Container(
             padding: EdgeInsets.symmetric(horizontal: 48),
             child: Column(
@@ -302,6 +303,146 @@ class _MainProfilePageState extends State<MainProfilePage> {
                 )
               ],
             ),
+          ),
+
+          SizedBox(
+            height: 50,
+          ),
+
+          Center(
+            child: Column(
+              children: [
+                Center(
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 30,
+                      ),
+                      ClipOval(
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Ink.image(
+                            image: FirebaseImage(
+                                'gs://datekaro-53e2b.appspot.com/ProfileImages/$uid/image1',
+                                shouldCache: true,
+                                maxSizeBytes: 3000 * 1000,
+                                cacheRefreshStrategy:
+                                    CacheRefreshStrategy.NEVER),
+                            fit: BoxFit.cover,
+                            width: 100,
+                            height: 100,
+                            //child: InkWell(onTap: onClicked),
+                          ),
+                        ),
+                      ),
+                      ClipOval(
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Ink.image(
+                            image: FirebaseImage(
+                                'gs://datekaro-53e2b.appspot.com/ProfileImages/$uid/image2',
+                                shouldCache: true,
+                                maxSizeBytes: 3000 * 1000,
+                                cacheRefreshStrategy:
+                                    CacheRefreshStrategy.NEVER),
+                            fit: BoxFit.cover,
+                            width: 100,
+                            height: 100,
+                            //child: InkWell(onTap: onClicked),
+                          ),
+                        ),
+                      ),
+                      ClipOval(
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Ink.image(
+                            image: FirebaseImage(
+                                'gs://datekaro-53e2b.appspot.com/ProfileImages/$uid/image3',
+                                shouldCache: true,
+                                maxSizeBytes: 3000 * 1000,
+                                cacheRefreshStrategy:
+                                    CacheRefreshStrategy.NEVER),
+                            fit: BoxFit.cover,
+                            width: 100,
+                            height: 100,
+                            //child: InkWell(onTap: onClicked),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 30,
+                    ),
+                    ClipOval(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Ink.image(
+                          image: FirebaseImage(
+                              'gs://datekaro-53e2b.appspot.com/ProfileImages/$uid/image4',
+                              shouldCache: true,
+                              maxSizeBytes: 3000 * 1000,
+                              cacheRefreshStrategy: CacheRefreshStrategy.NEVER),
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
+                          //child: InkWell(onTap: onClicked),
+                        ),
+                      ),
+                    ),
+                    ClipOval(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Ink.image(
+                          image: FirebaseImage(
+                              'gs://datekaro-53e2b.appspot.com/ProfileImages/$uid/image5',
+                              shouldCache: true,
+                              maxSizeBytes: 3000 * 1000,
+                              cacheRefreshStrategy: CacheRefreshStrategy.NEVER),
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
+                          //child: InkWell(onTap: onClicked),
+                        ),
+                      ),
+                    ),
+                    ClipOval(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Ink.image(
+                          image: FirebaseImage(
+                              'gs://datekaro-53e2b.appspot.com/ProfileImages/$uid/image6',
+                              shouldCache: true,
+                              maxSizeBytes: 3000 * 1000,
+                              cacheRefreshStrategy: CacheRefreshStrategy.NEVER),
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
+                          //child: InkWell(onTap: onClicked),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+              ],
+            ),
+          ),
+
+          SizedBox(
+            height: 50,
+          ),
+          Center(
+            child: GestureDetector(
+                onTap: () {},
+                child: blueButton(
+                    context: context,
+                    label: "Edit Profile",
+                    buttonWidth: MediaQuery.of(context).size.width / 2)),
           ),
           SizedBox(
             height: 50,
