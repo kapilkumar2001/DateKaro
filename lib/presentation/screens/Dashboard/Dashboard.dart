@@ -21,16 +21,10 @@ class _DashboardState extends State<Dashboard> {
   }
 
   static const List<Widget> _tabs = <Widget>[
-    // Center(
-    //   child: Text(
-    //     'Swipe page',
-    //     style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-    //   ),
-    // ),
     SwipePage(),
     Center(
       child: Text(
-        'Chat',
+        'Chat Page - Under Construction',
         style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
       ),
     ),
