@@ -7,11 +7,12 @@
 
 ## Features
 
-- Authentication
+- Authentication (OTP Authentication)
 - User Profile (Profile Photo,Bio,Hobbies)
 - Filter thier feed (on bases of Age)
 - Like or Dislike a profile from their feed.
-- Mutually liked profiles have chat Features
+- Mutually liked profiles visible within "Interested section".
+- INTRESED section have chat features and able to exchange media.(In Progress)
 
 ## Screenshots
 
@@ -32,6 +33,16 @@
 
 
 </p>
+
+## Future Implementations
+- INTRESED section have chat features and able to exchange media.
+- Filter the User feed on Bases of Distance Radius and Gender.
+
+
+## 💻Tech Stacks 
+
+- Flutter
+- Firebase
 
 ## 🤓 Contributors 
 
