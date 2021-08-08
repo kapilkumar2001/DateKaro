@@ -17,13 +17,11 @@ Future<void> userSetup(
     int hobbie8,
     int hobbie9,
     int hobbie10) async {
-  CollectionReference tutions = FirebaseFirestore.instance.collection('User');
+  CollectionReference users = FirebaseFirestore.instance.collection('User');
 
   FirebaseAuth auth = FirebaseAuth.instance;
   String uid = auth.currentUser!.uid.toString();
-  print("tutionsetup => firebase run hua");
-
-  tutions.doc(uid).set({
+  users.doc(uid).set({
     'UserName': userName,
     'MobileNumber': mobile,
     'Age': age,
@@ -38,7 +36,32 @@ Future<void> userSetup(
     'Hobbie7': hobbie7,
     'Hobbie8': hobbie8,
     'Hobbie9': hobbie9,
-    'Hobbie10': hobbie10
+    'Hobbie10': hobbie10,
+    'LikedProfiles': []
+  });
+  return;
+}
+
+Future<void> userConnection(String user1ID, String user2ID) async {
+  CollectionReference connection =
+      FirebaseFirestore.instance.collection('User');
+
+  print("connection => firebase run hua");
+
+  connection.doc(user1ID).update({
+    'LikedProfiles': FieldValue.arrayUnion([user2ID])
+  });
+  return;
+}
+
+Future<void> matchingmatching(String user1ID, String user2ID) async {
+  CollectionReference connection =
+      FirebaseFirestore.instance.collection('User');
+
+  print("matching => firebase run hua");
+
+  connection.doc(user1ID).update({
+    'MatchedProfiles': FieldValue.arrayUnion([user2ID])
   });
   return;
 }

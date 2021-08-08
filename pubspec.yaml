@@ -47,6 +47,7 @@ dependencies:
   permission_handler: ^8.1.4+2
   firebase_image: ^1.0.1
   swipe_cards: ^0.1.0
+  syncfusion_flutter_sliders: ^19.2.51
 
 dev_dependencies:
   flutter_test:

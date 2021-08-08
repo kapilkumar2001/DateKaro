@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:datekaro/data/net/firebase.dart';
 import 'package:datekaro/presentation/screens/login.dart';
 import 'package:datekaro/presentation/widgets/blue_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,6 +36,7 @@ class _SwipePageState extends State<SwipePage> {
 
   FirebaseAuth auth = FirebaseAuth.instance;
   var uid;
+  var id;
   var currgender;
 
   var hobbies = [
@@ -86,6 +88,73 @@ class _SwipePageState extends State<SwipePage> {
     super.initState();
   }
 
+  int flag = 0;
+  var ageController1 = TextEditingController(text: "18");
+  var ageController2 = TextEditingController(text: "80");
+  final _formKey = GlobalKey<FormState>();
+
+  matchaction(BuildContext context) async {
+    return _scaffoldKey.currentState!.showSnackBar(SnackBar(
+      content: Text("Hoorray You got a match!!"),
+      duration: Duration(milliseconds: 1000),
+    ));
+  }
+
+  _displayDialog(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: AlertDialog(
+              title: Text('Select Age Range'),
+              content: Center(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: ageController1,
+                        decoration: InputDecoration(
+                            labelText: "From", hintText: "Example: 18"),
+                        validator: (value) {
+                          if (int.parse(value!) < 18) {
+                            return "Must be more than 18";
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: ageController2,
+                        decoration: InputDecoration(
+                            labelText: "To", hintText: "Example: 40"),
+                        validator: (value) {
+                          if (int.parse(value!) <
+                              int.parse(ageController1.text)) {
+                            return "Must be more than ${ageController1.text}";
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text('done'),
+                  onPressed: () {
+                    setState(() {});
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.pop(context);
+                    }
+                  },
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +171,8 @@ class _SwipePageState extends State<SwipePage> {
                 padding: EdgeInsets.only(right: 20.0),
                 child: GestureDetector(
                   onTap: () {
-                    //_displayDialog(context);
+                    _displayDialog(context);
+                    setState(() {});
                   },
                   child: Icon(Icons.filter_list, color: Colors.white),
                 )),
@@ -114,24 +184,21 @@ class _SwipePageState extends State<SwipePage> {
               StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('User')
-                      .where('Gender', isNotEqualTo: currgender)
-                      // .orderBy('TutionName')
+                      .where('Age',
+                          isGreaterThanOrEqualTo:
+                              int.parse(ageController1.text),
+                          isLessThanOrEqualTo: int.parse(ageController2.text))
+                      //.where('Gender', isNotEqualTo: int.parse(currgender))
                       .snapshots(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasData) {
                       return SwipeCards(
-                        //itemCount: snapshot.data.documents.length,
+                        //itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
                           DocumentSnapshot user = snapshot.data!.docs[index];
 
-                          var id = user.id;
-                          print(user.id);
-                          print(user['UserName']);
-                          print(user['Age']);
-                          print(user['Bio']);
-                          print(user['MobileNumber']);
-                          print(user['Hobbie1']);
+                          id = user.id;
 
                           return SingleChildScrollView(
                             child: Container(
@@ -148,24 +215,24 @@ class _SwipePageState extends State<SwipePage> {
                                       child: ClipOval(
                                         child: Material(
                                           color: Colors.transparent,
-                                          child: Image.network(
-                                            "https://pbs.twimg.com/profile_images/1372030169985163266/ceCabVlu.jpg",
-                                            height: 120,
-                                            width: 120,
-                                          ),
-                                          // child: Ink.image(
-
-                                          //   image: FirebaseImage(
-                                          //       'gs://datekaro-53e2b.appspot.com/ProfileImages/$id/image1',
-                                          //       shouldCache: true,
-                                          //       maxSizeBytes: 3000 * 1000,
-                                          //       cacheRefreshStrategy:
-                                          //           CacheRefreshStrategy.NEVER),
-                                          //   fit: BoxFit.cover,
-                                          //   width: 128,
-                                          //   height: 128,
-                                          //   //child: InkWell(onTap: onClicked),
+                                          // child: Image.network(
+                                          //   "https://pbs.twimg.com/profile_images/1372030169985163266/ceCabVlu.jpg",
+                                          //   height: 120,
+                                          //   width: 120,
                                           // ),
+                                          child: Ink.image(
+                                            image: FirebaseImage(
+                                              'gs://datekaro-53e2b.appspot.com/ProfileImages/$id/image1',
+                                              // shouldCache: true,
+                                              // maxSizeBytes: 3000 * 1000,
+                                              // cacheRefreshStrategy:
+                                              //     CacheRefreshStrategy.NEVER
+                                            ),
+                                            fit: BoxFit.cover,
+                                            width: 128,
+                                            height: 128,
+                                            //child: InkWell(onTap: onClicked),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -411,13 +478,14 @@ class _SwipePageState extends State<SwipePage> {
                                                             Colors.transparent,
                                                         child: Ink.image(
                                                           image: FirebaseImage(
-                                                              'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image1',
-                                                              shouldCache: true,
-                                                              maxSizeBytes:
-                                                                  3000 * 1000,
-                                                              cacheRefreshStrategy:
-                                                                  CacheRefreshStrategy
-                                                                      .NEVER),
+                                                            'gs://datekaro-53e2b.appspot.com/ProfileImages/$id/image1',
+                                                            //shouldCache: true,
+                                                            // maxSizeBytes:
+                                                            //     3000 * 1000,
+                                                            // cacheRefreshStrategy:
+                                                            //     CacheRefreshStrategy
+                                                            //         .NEVER
+                                                          ),
                                                           fit: BoxFit.cover,
                                                           width: 100,
                                                           height: 100,
@@ -431,13 +499,14 @@ class _SwipePageState extends State<SwipePage> {
                                                             Colors.transparent,
                                                         child: Ink.image(
                                                           image: FirebaseImage(
-                                                              'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image2',
-                                                              shouldCache: true,
-                                                              maxSizeBytes:
-                                                                  3000 * 1000,
-                                                              cacheRefreshStrategy:
-                                                                  CacheRefreshStrategy
-                                                                      .NEVER),
+                                                            'gs://datekaro-53e2b.appspot.com/ProfileImages/$id/image2',
+                                                            // shouldCache: true,
+                                                            // maxSizeBytes:
+                                                            //     3000 * 1000,
+                                                            // cacheRefreshStrategy:
+                                                            //     CacheRefreshStrategy
+                                                            //        .NEVER
+                                                          ),
                                                           fit: BoxFit.cover,
                                                           width: 100,
                                                           height: 100,
@@ -451,13 +520,14 @@ class _SwipePageState extends State<SwipePage> {
                                                             Colors.transparent,
                                                         child: Ink.image(
                                                           image: FirebaseImage(
-                                                              'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image3',
-                                                              shouldCache: true,
-                                                              maxSizeBytes:
-                                                                  3000 * 1000,
-                                                              cacheRefreshStrategy:
-                                                                  CacheRefreshStrategy
-                                                                      .NEVER),
+                                                            'gs://datekaro-53e2b.appspot.com/ProfileImages/$id/image3',
+                                                            // shouldCache: true,
+                                                            // maxSizeBytes:
+                                                            //     3000 * 1000,
+                                                            // cacheRefreshStrategy:
+                                                            //     CacheRefreshStrategy
+                                                            //         .NEVER
+                                                          ),
                                                           fit: BoxFit.cover,
                                                           width: 100,
                                                           height: 100,
@@ -479,13 +549,14 @@ class _SwipePageState extends State<SwipePage> {
                                                       color: Colors.transparent,
                                                       child: Ink.image(
                                                         image: FirebaseImage(
-                                                            'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image4',
-                                                            shouldCache: true,
-                                                            maxSizeBytes:
-                                                                3000 * 1000,
-                                                            cacheRefreshStrategy:
-                                                                CacheRefreshStrategy
-                                                                    .NEVER),
+                                                          'gs://datekaro-53e2b.appspot.com/ProfileImages/$id/image4',
+                                                          // shouldCache: true,
+                                                          // maxSizeBytes:
+                                                          //     3000 * 1000,
+                                                          // cacheRefreshStrategy:
+                                                          //     CacheRefreshStrategy
+                                                          //         .NEVER
+                                                        ),
                                                         fit: BoxFit.cover,
                                                         width: 100,
                                                         height: 100,
@@ -498,13 +569,14 @@ class _SwipePageState extends State<SwipePage> {
                                                       color: Colors.transparent,
                                                       child: Ink.image(
                                                         image: FirebaseImage(
-                                                            'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image5',
-                                                            shouldCache: true,
-                                                            maxSizeBytes:
-                                                                3000 * 1000,
-                                                            cacheRefreshStrategy:
-                                                                CacheRefreshStrategy
-                                                                    .NEVER),
+                                                          'gs://datekaro-53e2b.appspot.com/ProfileImages/$id/image5',
+                                                          // shouldCache: true,
+                                                          // maxSizeBytes:
+                                                          //     3000 * 1000,
+                                                          // cacheRefreshStrategy:
+                                                          //     CacheRefreshStrategy
+                                                          //         .NEVER
+                                                        ),
                                                         fit: BoxFit.cover,
                                                         width: 100,
                                                         height: 100,
@@ -517,13 +589,14 @@ class _SwipePageState extends State<SwipePage> {
                                                       color: Colors.transparent,
                                                       child: Ink.image(
                                                         image: FirebaseImage(
-                                                            'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image6',
-                                                            shouldCache: true,
-                                                            maxSizeBytes:
-                                                                3000 * 1000,
-                                                            cacheRefreshStrategy:
-                                                                CacheRefreshStrategy
-                                                                    .NEVER),
+                                                          'gs://datekaro-53e2b.appspot.com/ProfileImages/$id/image6',
+                                                          // shouldCache: true,
+                                                          // maxSizeBytes:
+                                                          //     3000 * 1000,
+                                                          // cacheRefreshStrategy:
+                                                          //     CacheRefreshStrategy
+                                                          //         .NEVER
+                                                        ),
                                                         fit: BoxFit.cover,
                                                         width: 100,
                                                         height: 100,
@@ -993,15 +1066,63 @@ class _SwipePageState extends State<SwipePage> {
                       },
                       child: Text("Nope")),
                   RaisedButton(
-                      onPressed: () {
-                        _matchEngine.currentItem!.superLike();
+                      onPressed: () async {
+                        userConnection(uid.toString(), id.toString());
+                        flag = 0;
+                        await FirebaseFirestore.instance
+                            .collection("User")
+                            .doc(id.toString())
+                            .get()
+                            .then((value) {
+                          setState(() {
+                            // first add the data to the Offset object
+                            List.from(value['LikedProfiles'])
+                                .forEach((element) {
+                              if ((element) == (uid)) {
+                                matchingmatching(uid.toString(), id.toString());
+                                matchingmatching(id.toString(), uid.toString());
+                                flag = 1;
+                              }
+                            });
+                          });
+                        });
+                        if (flag == 1) matchaction(context);
+                        if (flag == 0) _matchEngine.currentItem!.superLike();
                       },
                       child: Text("Superlike")),
+
+// if (flag == 1) {
+//                           _scaffoldKey.currentState!.showSnackBar(SnackBar(
+//                             content: Text("Hoorray!! You got a match"),
+//                             duration: Duration(milliseconds: 800),
+//                           ));
+//                         }
+
                   RaisedButton(
-                      onPressed: () {
-                        _matchEngine.currentItem!.like();
+                      onPressed: () async {
+                        userConnection(uid.toString(), id.toString());
+                        flag = 0;
+                        await FirebaseFirestore.instance
+                            .collection("User")
+                            .doc(id.toString())
+                            .get()
+                            .then((value) {
+                          setState(() {
+                            // first add the data to the Offset object
+                            List.from(value['LikedProfiles'])
+                                .forEach((element) {
+                              if ((element) == (uid)) {
+                                matchingmatching(uid.toString(), id.toString());
+                                matchingmatching(id.toString(), uid.toString());
+                                flag = 1;
+                              }
+                            });
+                          });
+                        });
+                        if (flag == 1) matchaction(context);
+                        if (flag == 0) _matchEngine.currentItem!.like();
                       },
-                      child: Text("Like"))
+                      child: Text("Like")),
                 ],
               )
             ],
