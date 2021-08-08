@@ -7,12 +7,23 @@
 
 ## Features
 
-- Authentication (OTP Authentication)
-- User Profile (Profile Photo,Bio,Hobbies)
-- Filter thier feed (on bases of Age)
-- Like or Dislike a profile from their feed.
-- Mutually liked profiles visible within "Interested section".
-- INTRESED section have chat features and able to exchange media.(In Progress)
+- Authentication 
+Phone Number Login ( OTP Authentication )
+
+- User Profile 
+ {At Least 2 photos (max 6)
+ Bio
+ Hobbies}
+
+- Users should be able to filter their feed on the basis of the following factors:-
+ (Age Range)
+
+- The feed of the users should be according to the following points:-
+ (Filters Set by the User) 
+- Hobbies (eg: Music, dance, etc) (showing hobbies of user)
+
+- Users can Like or Dislike a profile from their feed.
+- Whenever a user gets Matched he gets a snackbar showing he/She got a Match.
 
 ## Screenshots
 
