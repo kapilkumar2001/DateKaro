@@ -64,19 +64,19 @@ class _SwipePageState extends State<SwipePage> {
           content: Content(text: _names[i], color: _colors[i]),
           likeAction: () {
             _scaffoldKey.currentState!.showSnackBar(SnackBar(
-              content: Text("Liked ${_names[i]}"),
+              content: Text("Liked"),
               duration: Duration(milliseconds: 500),
             ));
           },
           nopeAction: () {
             _scaffoldKey.currentState!.showSnackBar(SnackBar(
-              content: Text("Nope ${_names[i]}"),
+              content: Text("Nope"),
               duration: Duration(milliseconds: 500),
             ));
           },
           superlikeAction: () {
             _scaffoldKey.currentState!.showSnackBar(SnackBar(
-              content: Text("Superliked ${_names[i]}"),
+              content: Text("Superliked"),
               duration: Duration(milliseconds: 500),
             ));
           }));
@@ -91,7 +91,12 @@ class _SwipePageState extends State<SwipePage> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: Text("Get your Match"),
+          title: Text(
+            "Get your Match",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color(0xff403b58),
+          foregroundColor: Colors.white,
           actions: <Widget>[
             Padding(
                 padding: EdgeInsets.only(right: 20.0),
@@ -99,7 +104,7 @@ class _SwipePageState extends State<SwipePage> {
                   onTap: () {
                     //_displayDialog(context);
                   },
-                  child: Icon(Icons.filter_list),
+                  child: Icon(Icons.filter_list, color: Colors.white),
                 )),
           ],
         ),
@@ -120,6 +125,7 @@ class _SwipePageState extends State<SwipePage> {
                         itemBuilder: (context, index) {
                           DocumentSnapshot user = snapshot.data!.docs[index];
 
+                          var id = user.id;
                           print(user.id);
                           print(user['UserName']);
                           print(user['Age']);
@@ -127,428 +133,834 @@ class _SwipePageState extends State<SwipePage> {
                           print(user['MobileNumber']);
                           print(user['Hobbie1']);
 
-                          return ListView(
-                            physics: BouncingScrollPhysics(),
-                            children: [
-                              Center(
+                          return SingleChildScrollView(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width - 20,
+                              color: Colors.orange[200],
+                              height: 500,
+                              child: SingleChildScrollView(
                                 child: Stack(
                                   children: [
-                                    ClipOval(
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        child: Ink.image(
-                                          image: FirebaseImage(
-                                              'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image1',
-                                              shouldCache: true,
-                                              maxSizeBytes: 3000 * 1000,
-                                              cacheRefreshStrategy:
-                                                  CacheRefreshStrategy.NEVER),
-                                          fit: BoxFit.cover,
-                                          width: 128,
-                                          height: 128,
-                                          //child: InkWell(onTap: onClicked),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    Center(
+                                      child: ClipOval(
+                                        child: Material(
+                                          color: Colors.transparent,
+                                          child: Image.network(
+                                            "https://pbs.twimg.com/profile_images/1372030169985163266/ceCabVlu.jpg",
+                                            height: 120,
+                                            width: 120,
+                                          ),
+                                          // child: Ink.image(
+
+                                          //   image: FirebaseImage(
+                                          //       'gs://datekaro-53e2b.appspot.com/ProfileImages/$id/image1',
+                                          //       shouldCache: true,
+                                          //       maxSizeBytes: 3000 * 1000,
+                                          //       cacheRefreshStrategy:
+                                          //           CacheRefreshStrategy.NEVER),
+                                          //   fit: BoxFit.cover,
+                                          //   width: 128,
+                                          //   height: 128,
+                                          //   //child: InkWell(onTap: onClicked),
+                                          // ),
                                         ),
                                       ),
-                                    )
-                                    // Positioned(
-                                    //   bottom: 0,
-                                    //   right: 4,
-                                    //  // child: buildEditIcon(color),
-                                    // ),
-                                  ],
-                                ),
-                              ),
-
-                              //     Image(
-                              //   image: FirebaseImage(
-                              //     'gs://bucket123/userIcon123.jpg',
-                              //     shouldCache: true, // The image should be cached (default: True)
-                              //     maxSizeBytes: 3000 * 1000, // 3MB max file size (default: 2.5MB)
-                              //     cacheRefreshStrategy: CacheRefreshStrategy.NEVER // Switch off update checking
-                              //   ),
-                              //   width: 100,
-                              // ),
-
-                              const SizedBox(height: 24),
-                              Column(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      user['UserName'],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 24),
                                     ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Expanded(
-                                    child: Text(
-                                      user['MobileNumber'].toString(),
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(height: 48),
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 48),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'About',
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Expanded(
-                                      child: Text(
-                                        user['Bio'].toString(),
-                                        style: TextStyle(
-                                            fontSize: 16, height: 1.4),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 24),
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 48),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Age',
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Expanded(
-                                      child: Text(
-                                        user['Age'].toString(),
-                                        style: TextStyle(
-                                            fontSize: 16, height: 1.4),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 24),
-
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 48),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Hobbies',
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Wrap(
-                                      children: [
-                                        if (user['Hobbie1'] == 1)
-                                          Card(
-                                            elevation: 3,
-                                            color: Colors.amber,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(hobbies[0]),
-                                            ),
-                                          ),
-                                        // else
-                                        //   Container(),
-                                        if (user['Hobbie2'] == 1)
-                                          Card(
-                                            elevation: 3,
-                                            color: Colors.amber,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(hobbies[1]),
-                                            ),
-                                          ),
-                                        // else
-                                        //   Container(),
-                                        if (user['Hobbie3'] == 1)
-                                          Card(
-                                            elevation: 3,
-                                            color: Colors.amber,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(hobbies[2]),
-                                            ),
-                                          )
-                                        else
-                                          Container(),
-                                        if (user['Hobbie4'] == 1)
-                                          Card(
-                                            elevation: 3,
-                                            color: Colors.amber,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(hobbies[3]),
-                                            ),
-                                          ),
-
-                                        if (user['Hobbie5'] == 1)
-                                          Card(
-                                            elevation: 3,
-                                            color: Colors.amber,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(hobbies[4]),
-                                            ),
-                                          ),
-
-                                        if (user['Hobbie6'] == 1)
-                                          Card(
-                                            elevation: 3,
-                                            color: Colors.amber,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(hobbies[5]),
-                                            ),
-                                          ),
-
-                                        if (user['Hobbie7'] == 1)
-                                          Card(
-                                            elevation: 3,
-                                            color: Colors.amber,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(hobbies[6]),
-                                            ),
-                                          ),
-
-                                        if (user['Hobbie8'] == 1)
-                                          Card(
-                                            elevation: 3,
-                                            color: Colors.amber,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(hobbies[7]),
-                                            ),
-                                          ),
-
-                                        if (user['Hobbie9'] == 1)
-                                          Card(
-                                            elevation: 3,
-                                            color: Colors.amber,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(hobbies[8]),
-                                            ),
-                                          ),
-
-                                        if (user['Hobbie10'] == 1)
-                                          Card(
-                                            elevation: 3,
-                                            color: Colors.amber,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(hobbies[9]),
-                                            ),
-                                          )
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-
-                              SizedBox(
-                                height: 50,
-                              ),
-
-                              Center(
-                                child: Column(
-                                  children: [
                                     Center(
-                                      child: Row(
+                                      child: Column(
                                         children: [
+                                          SizedBox(height: 140),
+                                          Text(
+                                            user['UserName'],
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 24),
+                                          ),
+                                          SizedBox(height: 4),
+                                          Text(
+                                            user['MobileNumber'].toString(),
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
                                           SizedBox(
-                                            width: 30,
+                                            height: 16,
                                           ),
-                                          ClipOval(
-                                            child: Material(
-                                              color: Colors.transparent,
-                                              child: Ink.image(
-                                                image: FirebaseImage(
-                                                    'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image1',
-                                                    shouldCache: true,
-                                                    maxSizeBytes: 3000 * 1000,
-                                                    cacheRefreshStrategy:
-                                                        CacheRefreshStrategy
-                                                            .NEVER),
-                                                fit: BoxFit.cover,
-                                                width: 100,
-                                                height: 100,
-                                                //child: InkWell(onTap: onClicked),
-                                              ),
-                                            ),
+                                          Text(
+                                            'About',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
                                           ),
-                                          ClipOval(
-                                            child: Material(
-                                              color: Colors.transparent,
-                                              child: Ink.image(
-                                                image: FirebaseImage(
-                                                    'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image2',
-                                                    shouldCache: true,
-                                                    maxSizeBytes: 3000 * 1000,
-                                                    cacheRefreshStrategy:
-                                                        CacheRefreshStrategy
-                                                            .NEVER),
-                                                fit: BoxFit.cover,
-                                                width: 100,
-                                                height: 100,
-                                                //child: InkWell(onTap: onClicked),
-                                              ),
-                                            ),
+                                          const SizedBox(height: 0),
+                                          Text(
+                                            user['Bio'].toString(),
+                                            style: TextStyle(
+                                                fontSize: 16, height: 1.4),
                                           ),
-                                          ClipOval(
-                                            child: Material(
-                                              color: Colors.transparent,
-                                              child: Ink.image(
-                                                image: FirebaseImage(
-                                                    'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image3',
-                                                    shouldCache: true,
-                                                    maxSizeBytes: 3000 * 1000,
-                                                    cacheRefreshStrategy:
-                                                        CacheRefreshStrategy
-                                                            .NEVER),
-                                                fit: BoxFit.cover,
-                                                width: 100,
-                                                height: 100,
-                                                //child: InkWell(onTap: onClicked),
-                                              ),
+                                          SizedBox(
+                                            height: 16,
+                                          ),
+                                          Text(
+                                            'Age',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const SizedBox(height: 0),
+                                          Text(
+                                            user['Age'].toString(),
+                                            style: TextStyle(
+                                                fontSize: 16, height: 1.4),
+                                          ),
+                                          SizedBox(
+                                            height: 16,
+                                          ),
+                                          if (user['Gender'] == 0)
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  'Gender',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                const SizedBox(height: 0),
+                                                Text(
+                                                  "Male",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      height: 1.4),
+                                                ),
+                                                SizedBox(
+                                                  height: 16,
+                                                ),
+                                              ],
                                             ),
+                                          if (user['Gender'] == 1)
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  'Gender',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                const SizedBox(height: 0),
+                                                Text(
+                                                  "FeMale",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      height: 1.4),
+                                                ),
+                                                SizedBox(
+                                                  height: 16,
+                                                ),
+                                              ],
+                                            ),
+                                          Text(
+                                            'Hobbies',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            height: 16,
+                                          ),
+                                          Wrap(
+                                            children: [
+                                              if (user['Hobbie1'] == 1)
+                                                Card(
+                                                  elevation: 3,
+                                                  color: Colors.amber,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(hobbies[0]),
+                                                  ),
+                                                ),
+                                              // else
+                                              //   Container(),
+                                              if (user['Hobbie2'] == 1)
+                                                Card(
+                                                  elevation: 3,
+                                                  color: Colors.amber,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(hobbies[1]),
+                                                  ),
+                                                ),
+                                              // else
+                                              //   Container(),
+                                              if (user['Hobbie3'] == 1)
+                                                Card(
+                                                  elevation: 3,
+                                                  color: Colors.amber,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(hobbies[2]),
+                                                  ),
+                                                )
+                                              else
+                                                Container(),
+                                              if (user['Hobbie4'] == 1)
+                                                Card(
+                                                  elevation: 3,
+                                                  color: Colors.amber,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(hobbies[3]),
+                                                  ),
+                                                ),
+
+                                              if (user['Hobbie5'] == 1)
+                                                Card(
+                                                  elevation: 3,
+                                                  color: Colors.amber,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(hobbies[4]),
+                                                  ),
+                                                ),
+
+                                              if (user['Hobbie6'] == 1)
+                                                Card(
+                                                  elevation: 3,
+                                                  color: Colors.amber,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(hobbies[5]),
+                                                  ),
+                                                ),
+
+                                              if (user['Hobbie7'] == 1)
+                                                Card(
+                                                  elevation: 3,
+                                                  color: Colors.amber,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(hobbies[6]),
+                                                  ),
+                                                ),
+
+                                              if (user['Hobbie8'] == 1)
+                                                Card(
+                                                  elevation: 3,
+                                                  color: Colors.amber,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(hobbies[7]),
+                                                  ),
+                                                ),
+
+                                              if (user['Hobbie9'] == 1)
+                                                Card(
+                                                  elevation: 3,
+                                                  color: Colors.amber,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(hobbies[8]),
+                                                  ),
+                                                ),
+
+                                              if (user['Hobbie10'] == 1)
+                                                Card(
+                                                  elevation: 3,
+                                                  color: Colors.amber,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(hobbies[9]),
+                                                  ),
+                                                )
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              Center(
+                                                child: Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 30,
+                                                    ),
+                                                    ClipOval(
+                                                      child: Material(
+                                                        color:
+                                                            Colors.transparent,
+                                                        child: Ink.image(
+                                                          image: FirebaseImage(
+                                                              'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image1',
+                                                              shouldCache: true,
+                                                              maxSizeBytes:
+                                                                  3000 * 1000,
+                                                              cacheRefreshStrategy:
+                                                                  CacheRefreshStrategy
+                                                                      .NEVER),
+                                                          fit: BoxFit.cover,
+                                                          width: 100,
+                                                          height: 100,
+                                                          //child: InkWell(onTap: onClicked),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ClipOval(
+                                                      child: Material(
+                                                        color:
+                                                            Colors.transparent,
+                                                        child: Ink.image(
+                                                          image: FirebaseImage(
+                                                              'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image2',
+                                                              shouldCache: true,
+                                                              maxSizeBytes:
+                                                                  3000 * 1000,
+                                                              cacheRefreshStrategy:
+                                                                  CacheRefreshStrategy
+                                                                      .NEVER),
+                                                          fit: BoxFit.cover,
+                                                          width: 100,
+                                                          height: 100,
+                                                          //child: InkWell(onTap: onClicked),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ClipOval(
+                                                      child: Material(
+                                                        color:
+                                                            Colors.transparent,
+                                                        child: Ink.image(
+                                                          image: FirebaseImage(
+                                                              'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image3',
+                                                              shouldCache: true,
+                                                              maxSizeBytes:
+                                                                  3000 * 1000,
+                                                              cacheRefreshStrategy:
+                                                                  CacheRefreshStrategy
+                                                                      .NEVER),
+                                                          fit: BoxFit.cover,
+                                                          width: 100,
+                                                          height: 100,
+                                                          //child: InkWell(onTap: onClicked),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(height: 24),
+                                              Row(
+                                                children: [
+                                                  SizedBox(
+                                                    width: 30,
+                                                  ),
+                                                  ClipOval(
+                                                    child: Material(
+                                                      color: Colors.transparent,
+                                                      child: Ink.image(
+                                                        image: FirebaseImage(
+                                                            'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image4',
+                                                            shouldCache: true,
+                                                            maxSizeBytes:
+                                                                3000 * 1000,
+                                                            cacheRefreshStrategy:
+                                                                CacheRefreshStrategy
+                                                                    .NEVER),
+                                                        fit: BoxFit.cover,
+                                                        width: 100,
+                                                        height: 100,
+                                                        //child: InkWell(onTap: onClicked),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  ClipOval(
+                                                    child: Material(
+                                                      color: Colors.transparent,
+                                                      child: Ink.image(
+                                                        image: FirebaseImage(
+                                                            'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image5',
+                                                            shouldCache: true,
+                                                            maxSizeBytes:
+                                                                3000 * 1000,
+                                                            cacheRefreshStrategy:
+                                                                CacheRefreshStrategy
+                                                                    .NEVER),
+                                                        fit: BoxFit.cover,
+                                                        width: 100,
+                                                        height: 100,
+                                                        //child: InkWell(onTap: onClicked),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  ClipOval(
+                                                    child: Material(
+                                                      color: Colors.transparent,
+                                                      child: Ink.image(
+                                                        image: FirebaseImage(
+                                                            'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image6',
+                                                            shouldCache: true,
+                                                            maxSizeBytes:
+                                                                3000 * 1000,
+                                                            cacheRefreshStrategy:
+                                                                CacheRefreshStrategy
+                                                                    .NEVER),
+                                                        fit: BoxFit.cover,
+                                                        width: 100,
+                                                        height: 100,
+                                                        //child: InkWell(onTap: onClicked),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 24),
+                                            ],
                                           ),
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(height: 24),
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 30,
-                                        ),
-                                        ClipOval(
-                                          child: Material(
-                                            color: Colors.transparent,
-                                            child: Ink.image(
-                                              image: FirebaseImage(
-                                                  'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image4',
-                                                  shouldCache: true,
-                                                  maxSizeBytes: 3000 * 1000,
-                                                  cacheRefreshStrategy:
-                                                      CacheRefreshStrategy
-                                                          .NEVER),
-                                              fit: BoxFit.cover,
-                                              width: 100,
-                                              height: 100,
-                                              //child: InkWell(onTap: onClicked),
-                                            ),
-                                          ),
-                                        ),
-                                        ClipOval(
-                                          child: Material(
-                                            color: Colors.transparent,
-                                            child: Ink.image(
-                                              image: FirebaseImage(
-                                                  'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image5',
-                                                  shouldCache: true,
-                                                  maxSizeBytes: 3000 * 1000,
-                                                  cacheRefreshStrategy:
-                                                      CacheRefreshStrategy
-                                                          .NEVER),
-                                              fit: BoxFit.cover,
-                                              width: 100,
-                                              height: 100,
-                                              //child: InkWell(onTap: onClicked),
-                                            ),
-                                          ),
-                                        ),
-                                        ClipOval(
-                                          child: Material(
-                                            color: Colors.transparent,
-                                            child: Ink.image(
-                                              image: FirebaseImage(
-                                                  'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image6',
-                                                  shouldCache: true,
-                                                  maxSizeBytes: 3000 * 1000,
-                                                  cacheRefreshStrategy:
-                                                      CacheRefreshStrategy
-                                                          .NEVER),
-                                              fit: BoxFit.cover,
-                                              width: 100,
-                                              height: 100,
-                                              //child: InkWell(onTap: onClicked),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 24),
                                   ],
                                 ),
                               ),
-
-                              SizedBox(
-                                height: 50,
-                              ),
-                              Center(
-                                child: GestureDetector(
-                                    onTap: () {},
-                                    child: blueButton(
-                                        context: context,
-                                        label: "Edit Profile",
-                                        buttonWidth:
-                                            MediaQuery.of(context).size.width /
-                                                2)),
-                              ),
-                              SizedBox(
-                                height: 50,
-                              ),
-                              Center(
-                                child: GestureDetector(
-                                    onTap: () async => {
-                                          await FirebaseAuth.instance.signOut(),
-                                          Navigator.pushAndRemoveUntil(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      LoginPage()),
-                                              (route) => false)
-                                        },
-                                    child: blueButton(
-                                        context: context,
-                                        label: "LogOut",
-                                        buttonWidth:
-                                            MediaQuery.of(context).size.width /
-                                                2)),
-                              ),
-                            ],
+                            ),
                           );
 
-                          // return Container(
-                          //   alignment: Alignment.center,
-                          //   color: Colors.orange[300],
-                          //   child: Text(
-                          //     user['UserName'].toString(),
-                          //     style: TextStyle(fontSize: 100),
+                          // return SizedBox(
+                          //   height: MediaQuery.of(context).size.height * 4 / 5,
+                          //   child: ListView(
+                          //     shrinkWrap: true,
+                          //     physics: BouncingScrollPhysics(),
+                          //     children: [
+                          //       // Center(
+                          //       //   child: Stack(
+                          //       //     children: [
+                          //       //       ClipOval(
+                          //       //         child: Material(
+                          //       //           color: Colors.transparent,
+                          //       //           child: Ink.image(
+                          //       //             image: FirebaseImage(
+                          //       //                 'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image1',
+                          //       //                 shouldCache: true,
+                          //       //                 maxSizeBytes: 3000 * 1000,
+                          //       //                 cacheRefreshStrategy:
+                          //       //                     CacheRefreshStrategy.NEVER),
+                          //       //             fit: BoxFit.cover,
+                          //       //             width: 128,
+                          //       //             height: 128,
+                          //       //             //child: InkWell(onTap: onClicked),
+                          //       //           ),
+                          //       //         ),
+                          //       //       )
+                          //       //     ],
+                          //       //   ),
+                          //       // ),
+                          //       const SizedBox(height: 24),
+                          //       Column(
+                          //         children: [
+                          //           Expanded(
+                          //             child: Text(
+                          //               user['UserName'].toString(),
+                          //               style: TextStyle(
+                          //                   fontWeight: FontWeight.bold,
+                          //                   fontSize: 24),
+                          //             ),
+                          //           ),
+                          //           const SizedBox(height: 4),
+                          //           Expanded(
+                          //             child: Text(
+                          //               user['UserName'],
+                          //               style: TextStyle(
+                          //                   fontWeight: FontWeight.bold,
+                          //                   fontSize: 24),
+                          //             ),
+                          //           ),
+                          //           SizedBox(height: 4),
+                          //           Expanded(
+                          //             child: Text(
+                          //               user['MobileNumber'].toString(),
+                          //               style: TextStyle(color: Colors.grey),
+                          //             ),
+                          //           )
+                          //         ],
+                          //       ),
+                          //       const SizedBox(height: 48),
+                          //       Expanded(
+                          //         child: Container(
+                          //           padding:
+                          //               EdgeInsets.symmetric(horizontal: 48),
+                          //           width: 200,
+                          //           child: Column(
+                          //             crossAxisAlignment:
+                          //                 CrossAxisAlignment.start,
+                          //             children: [
+                          //               Text(
+                          //                 'About',
+                          //                 style: TextStyle(
+                          //                     fontSize: 24,
+                          //                     fontWeight: FontWeight.bold),
+                          //               ),
+                          //               const SizedBox(height: 16),
+                          //               Expanded(
+                          //                 child: Text(
+                          //                   user['Bio'].toString(),
+                          //                   style: TextStyle(
+                          //                       fontSize: 16, height: 1.4),
+                          //                 ),
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //       ),
+                          //       const SizedBox(height: 24),
+                          //       Container(
+                          //         padding: EdgeInsets.symmetric(horizontal: 48),
+                          //         width: 200,
+                          //         child: Column(
+                          //           crossAxisAlignment:
+                          //               CrossAxisAlignment.start,
+                          //           children: [
+                          //             Text(
+                          //               'Age',
+                          //               style: TextStyle(
+                          //                   fontSize: 24,
+                          //                   fontWeight: FontWeight.bold),
+                          //             ),
+                          //             const SizedBox(height: 16),
+                          //             Expanded(
+                          //               child: Text(
+                          //                 user['Age'].toString(),
+                          //                 style: TextStyle(
+                          //                     fontSize: 16, height: 1.4),
+                          //               ),
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ),
+                          //       const SizedBox(height: 24),
+                          //       // Container(
+                          //       //   padding: EdgeInsets.symmetric(horizontal: 48),
+                          //       //   child: Column(
+                          //       //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //       //     children: [
+                          //       //       Text(
+                          //       //         'Hobbies',
+                          //       //         style: TextStyle(
+                          //       //             fontSize: 24,
+                          //       //             fontWeight: FontWeight.bold),
+                          //       //       ),
+                          //       //       const SizedBox(height: 16),
+                          //       //       Wrap(
+                          //       //         children: [
+                          //       //           if (user['Hobbie1'] == 1)
+                          //       //             Card(
+                          //       //               elevation: 3,
+                          //       //               color: Colors.amber,
+                          //       //               child: Padding(
+                          //       //                 padding:
+                          //       //                     const EdgeInsets.all(8.0),
+                          //       //                 child: Text(hobbies[0]),
+                          //       //               ),
+                          //       //             ),
+                          //       //           // else
+                          //       //           //   Container(),
+                          //       //           if (user['Hobbie2'] == 1)
+                          //       //             Card(
+                          //       //               elevation: 3,
+                          //       //               color: Colors.amber,
+                          //       //               child: Padding(
+                          //       //                 padding:
+                          //       //                     const EdgeInsets.all(8.0),
+                          //       //                 child: Text(hobbies[1]),
+                          //       //               ),
+                          //       //             ),
+                          //       //           // else
+                          //       //           //   Container(),
+                          //       //           if (user['Hobbie3'] == 1)
+                          //       //             Card(
+                          //       //               elevation: 3,
+                          //       //               color: Colors.amber,
+                          //       //               child: Padding(
+                          //       //                 padding:
+                          //       //                     const EdgeInsets.all(8.0),
+                          //       //                 child: Text(hobbies[2]),
+                          //       //               ),
+                          //       //             )
+                          //       //           else
+                          //       //             Container(),
+                          //       //           if (user['Hobbie4'] == 1)
+                          //       //             Card(
+                          //       //               elevation: 3,
+                          //       //               color: Colors.amber,
+                          //       //               child: Padding(
+                          //       //                 padding:
+                          //       //                     const EdgeInsets.all(8.0),
+                          //       //                 child: Text(hobbies[3]),
+                          //       //               ),
+                          //       //             ),
+
+                          //       //           if (user['Hobbie5'] == 1)
+                          //       //             Card(
+                          //       //               elevation: 3,
+                          //       //               color: Colors.amber,
+                          //       //               child: Padding(
+                          //       //                 padding:
+                          //       //                     const EdgeInsets.all(8.0),
+                          //       //                 child: Text(hobbies[4]),
+                          //       //               ),
+                          //       //             ),
+
+                          //       //           if (user['Hobbie6'] == 1)
+                          //       //             Card(
+                          //       //               elevation: 3,
+                          //       //               color: Colors.amber,
+                          //       //               child: Padding(
+                          //       //                 padding:
+                          //       //                     const EdgeInsets.all(8.0),
+                          //       //                 child: Text(hobbies[5]),
+                          //       //               ),
+                          //       //             ),
+
+                          //       //           if (user['Hobbie7'] == 1)
+                          //       //             Card(
+                          //       //               elevation: 3,
+                          //       //               color: Colors.amber,
+                          //       //               child: Padding(
+                          //       //                 padding:
+                          //       //                     const EdgeInsets.all(8.0),
+                          //       //                 child: Text(hobbies[6]),
+                          //       //               ),
+                          //       //             ),
+
+                          //       //           if (user['Hobbie8'] == 1)
+                          //       //             Card(
+                          //       //               elevation: 3,
+                          //       //               color: Colors.amber,
+                          //       //               child: Padding(
+                          //       //                 padding:
+                          //       //                     const EdgeInsets.all(8.0),
+                          //       //                 child: Text(hobbies[7]),
+                          //       //               ),
+                          //       //             ),
+
+                          //       //           if (user['Hobbie9'] == 1)
+                          //       //             Card(
+                          //       //               elevation: 3,
+                          //       //               color: Colors.amber,
+                          //       //               child: Padding(
+                          //       //                 padding:
+                          //       //                     const EdgeInsets.all(8.0),
+                          //       //                 child: Text(hobbies[8]),
+                          //       //               ),
+                          //       //             ),
+
+                          //       //           if (user['Hobbie10'] == 1)
+                          //       //             Card(
+                          //       //               elevation: 3,
+                          //       //               color: Colors.amber,
+                          //       //               child: Padding(
+                          //       //                 padding:
+                          //       //                     const EdgeInsets.all(8.0),
+                          //       //                 child: Text(hobbies[9]),
+                          //       //               ),
+                          //       //             )
+                          //       //         ],
+                          //       //       )
+                          //       //     ],
+                          //       //   ),
+                          //       // ),
+                          //       // SizedBox(
+                          //       //   height: 50,
+                          //       // ),
+                          //       // Center(
+                          //       //   child: Column(
+                          //       //     children: [
+                          //       //       Center(
+                          //       //         child: Row(
+                          //       //           children: [
+                          //       //             SizedBox(
+                          //       //               width: 30,
+                          //       //             ),
+                          //       //             ClipOval(
+                          //       //               child: Material(
+                          //       //                 color: Colors.transparent,
+                          //       //                 child: Ink.image(
+                          //       //                   image: FirebaseImage(
+                          //       //                       'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image1',
+                          //       //                       shouldCache: true,
+                          //       //                       maxSizeBytes: 3000 * 1000,
+                          //       //                       cacheRefreshStrategy:
+                          //       //                           CacheRefreshStrategy
+                          //       //                               .NEVER),
+                          //       //                   fit: BoxFit.cover,
+                          //       //                   width: 100,
+                          //       //                   height: 100,
+                          //       //                   //child: InkWell(onTap: onClicked),
+                          //       //                 ),
+                          //       //               ),
+                          //       //             ),
+                          //       //             ClipOval(
+                          //       //               child: Material(
+                          //       //                 color: Colors.transparent,
+                          //       //                 child: Ink.image(
+                          //       //                   image: FirebaseImage(
+                          //       //                       'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image2',
+                          //       //                       shouldCache: true,
+                          //       //                       maxSizeBytes: 3000 * 1000,
+                          //       //                       cacheRefreshStrategy:
+                          //       //                           CacheRefreshStrategy
+                          //       //                               .NEVER),
+                          //       //                   fit: BoxFit.cover,
+                          //       //                   width: 100,
+                          //       //                   height: 100,
+                          //       //                   //child: InkWell(onTap: onClicked),
+                          //       //                 ),
+                          //       //               ),
+                          //       //             ),
+                          //       //             ClipOval(
+                          //       //               child: Material(
+                          //       //                 color: Colors.transparent,
+                          //       //                 child: Ink.image(
+                          //       //                   image: FirebaseImage(
+                          //       //                       'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image3',
+                          //       //                       shouldCache: true,
+                          //       //                       maxSizeBytes: 3000 * 1000,
+                          //       //                       cacheRefreshStrategy:
+                          //       //                           CacheRefreshStrategy
+                          //       //                               .NEVER),
+                          //       //                   fit: BoxFit.cover,
+                          //       //                   width: 100,
+                          //       //                   height: 100,
+                          //       //                   //child: InkWell(onTap: onClicked),
+                          //       //                 ),
+                          //       //               ),
+                          //       //             ),
+                          //       //           ],
+                          //       //         ),
+                          //       //       ),
+                          //       //       const SizedBox(height: 24),
+                          //       //       Row(
+                          //       //         children: [
+                          //       //           SizedBox(
+                          //       //             width: 30,
+                          //       //           ),
+                          //       //           ClipOval(
+                          //       //             child: Material(
+                          //       //               color: Colors.transparent,
+                          //       //               child: Ink.image(
+                          //       //                 image: FirebaseImage(
+                          //       //                     'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image4',
+                          //       //                     shouldCache: true,
+                          //       //                     maxSizeBytes: 3000 * 1000,
+                          //       //                     cacheRefreshStrategy:
+                          //       //                         CacheRefreshStrategy
+                          //       //                             .NEVER),
+                          //       //                 fit: BoxFit.cover,
+                          //       //                 width: 100,
+                          //       //                 height: 100,
+                          //       //                 //child: InkWell(onTap: onClicked),
+                          //       //               ),
+                          //       //             ),
+                          //       //           ),
+                          //       //           ClipOval(
+                          //       //             child: Material(
+                          //       //               color: Colors.transparent,
+                          //       //               child: Ink.image(
+                          //       //                 image: FirebaseImage(
+                          //       //                     'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image5',
+                          //       //                     shouldCache: true,
+                          //       //                     maxSizeBytes: 3000 * 1000,
+                          //       //                     cacheRefreshStrategy:
+                          //       //                         CacheRefreshStrategy
+                          //       //                             .NEVER),
+                          //       //                 fit: BoxFit.cover,
+                          //       //                 width: 100,
+                          //       //                 height: 100,
+                          //       //                 //child: InkWell(onTap: onClicked),
+                          //       //               ),
+                          //       //             ),
+                          //       //           ),
+                          //       //           ClipOval(
+                          //       //             child: Material(
+                          //       //               color: Colors.transparent,
+                          //       //               child: Ink.image(
+                          //       //                 image: FirebaseImage(
+                          //       //                     'gs://datekaro-53e2b.appspot.com/ProfileImages/${user.id}/image6',
+                          //       //                     shouldCache: true,
+                          //       //                     maxSizeBytes: 3000 * 1000,
+                          //       //                     cacheRefreshStrategy:
+                          //       //                         CacheRefreshStrategy
+                          //       //                             .NEVER),
+                          //       //                 fit: BoxFit.cover,
+                          //       //                 width: 100,
+                          //       //                 height: 100,
+                          //       //                 //child: InkWell(onTap: onClicked),
+                          //       //               ),
+                          //       //             ),
+                          //       //           ),
+                          //       //         ],
+                          //       //       ),
+                          //       //       const SizedBox(height: 24),
+                          //       //     ],
+                          //       //   ),
+                          //       // ),
+                          //       SizedBox(
+                          //         height: 50,
+                          //       ),
+                          //       Center(
+                          //         child: GestureDetector(
+                          //             onTap: () {},
+                          //             child: blueButton(
+                          //                 context: context,
+                          //                 label: "Edit Profile",
+                          //                 buttonWidth: MediaQuery.of(context)
+                          //                         .size
+                          //                         .width /
+                          //                     2)),
+                          //       ),
+                          //       SizedBox(
+                          //         height: 50,
+                          //       ),
+                          //       Center(
+                          //         child: GestureDetector(
+                          //             onTap: () async => {
+                          //                   await FirebaseAuth.instance
+                          //                       .signOut(),
+                          //                   Navigator.pushAndRemoveUntil(
+                          //                       context,
+                          //                       MaterialPageRoute(
+                          //                           builder: (context) =>
+                          //                               LoginPage()),
+                          //                       (route) => false)
+                          //                 },
+                          //             child: blueButton(
+                          //                 context: context,
+                          //                 label: "LogOut",
+                          //                 buttonWidth: MediaQuery.of(context)
+                          //                         .size
+                          //                         .width /
+                          //                     2)),
+                          //       ),
+                          //     ],
                           //   ),
                           // );
                         },
@@ -571,37 +983,7 @@ class _SwipePageState extends State<SwipePage> {
                       // Still loading
                       return CircularProgressIndicator();
                     }
-                  }
-
-                  //     (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  //   if (!snapshot.hasData) {
-                  //     return Center(
-                  //         child: Center(
-                  //       child: new Text("No Profiles Available, change the filter"),
-                  //     ));
-                  //   }
-                  //   var name = "name not available";
-                  //   snapshot.data!.docs.map((doc) {
-                  //     name = doc['UserName'].toString();
-                  //   });
-                  //   return SwipeCards(
-                  //     matchEngine: _matchEngine,
-                  //     itemBuilder: (BuildContext context, int index) {
-                  //       return Container(
-                  //         child: Center(
-                  //           child: Text(name),
-                  //         ),
-                  //       );
-                  //     },
-                  //     onStackFinished: () {
-                  //       _scaffoldKey.currentState!.showSnackBar(SnackBar(
-                  //         content: Text("Stack Finished"),
-                  //         duration: Duration(milliseconds: 500),
-                  //       ));
-                  //     },
-                  //   );
-                  // }
-                  ),
+                  }),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
