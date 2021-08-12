@@ -46,6 +46,13 @@ Phone Number Login ( OTP Authentication )
 <br>
 <br>
 
+## ⚡Video
+[![Watch the video](https://img.youtube.com/vi/PsFLt9JiyBc/hqdefault.jpg)](https://youtu.be/PsFLt9JiyBc)
+
+
+<br>
+<br>
+
 ## ⚡Future Implementations
 - INTRESED section have chat features and able to exchange media.
 - Filter the User feed on Bases of Distance Radius and Gender.
